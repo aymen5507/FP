@@ -1,30 +1,38 @@
-# Active learning algorithm Opax
-Optimistic active exploration using a GP Model
+#OPAX Algorithm Implementation
+This repository contains an implementation of the OPAX (Optimistic Active Exploration of Dynamical Systems) algorithm in MATLAB. The OPAX algorithm is described in the paper "Optimistic Active Exploration of Dynamical Systems," and this implementation aims to replicate the algorithm's functionality as outlined in the paper.
 
-Here I implement an algortihm called OPAX from the following paper 
-"optimistic active exploration of dynamical systems" and then I compare it
-to different Active learning algorithms.
+Overview
+The OPAX algorithm is designed for active dynamics learning in dynamical systems. It utilizes a Gaussian process (GP) to model system dynamics and employs an information-gathering objective to guide exploration. This implementation follows the methodology described in the paper, with the following key steps:
 
-The OPAX algorithm for active dynamics learning is implemented in MATLAB.
-In our case, we do not use any stochastic elements so we do not use the expeted
-value neither the noise.
-The implementation begins by initializing a system model and generating an initial
-training set of state transitions from randomly sampled control inputs. A Gaussian
-process (GP) which represents the dynamics model model is fitted to this training
-data to capture a probabilistic model of the system dynamics.
-Then, in a loop, the algorithm solves the optimal control problem (2.3) over a
-horizon N that aims to maximize an information-gathering objective based on the
-GP model’s uncertainty and also while respecting the optimization constraint (2.4).
-This optimization is done with fmincon, while the GP is fit using the predefined
-MATLAB statistics toolbox function fitrgp.
-This objective exploits areas of high variance, which corresponds to uncertainty in
-the model to improve learning.
-The selected control input from the optimization is then applied to the system,
-a new state transition is observed, and the GP model is updated with this new
-additional data.
-Importantly, constraints are included in the optimal control problem based on
-the GP’s predictions to ensure safety during this exploration process. These con-
-straints are user defined in the code and can be updated. For the implementation
+Initialization: Initialize system model and generate an initial training set.
+Model Fitting: Fit a Gaussian process (GP) to the training data.
+Optimal Control: Solve an optimal control problem to maximize information gain while respecting constraints.
+Exploration and Safety: Apply selected control inputs to the system, update GP model, and ensure safety during exploration.
+Trajectory Planning: Generate planned trajectory targeting high uncertainty regions and execute on the true system.
+Model Evaluation: Evaluate final GP on held-out test set using mean-squared error.
+Usage
+To use this implementation:
+
+Clone this repository to your local machine:
+
+bash
+Copy code
+git clone https://github.com/username/opax-algorithm.git
+Open MATLAB and navigate to the cloned repository.
+
+Run the opax_algorithm.m script to execute the OPAX algorithm.
+
+Adjust parameters and settings as needed for your specific application.
+
+Requirements
+MATLAB R2019b or later
+MATLAB Statistics and Machine Learning Toolbox
+License
+This project is licensed under the MIT License.
+
+Acknowledgements
+This implementation is based on the OPAX algorithm described in the paper "Optimistic Active Exploration of Dynamical Systems".
+s. These constraints are user defined in the code and can be updated. For the implementation
 we used infinity.
 This results in a planned trajectory targeting high uncertainty regions of the state
 space.
